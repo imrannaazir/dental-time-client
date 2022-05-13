@@ -1,15 +1,61 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
+import auth from '../../firebase.init';
 
 const Navbar = () => {
+    const [user, loading] = useAuthState(auth);
     const navElement = <>
         <li><Link to='/'>Home</Link></li>
-        <li><Link to='/'>Appointment</Link></li>
+        <li><Link to='/appointment'>Appointment</Link></li>
         <li><Link to='/'>Reviews</Link></li>
         <li><Link to='/'>Contact</Link></li>
         <li><Link to='/'>About</Link></li>
-        <li><Link to='/'>Login</Link></li>
+
+        {user ?
+            <div class="dropdown">
+                <label tabindex="0"><div class="avatar online">
+                    <div class="w-12 rounded-full">
+                        <img src={user?.photoURL} alt="" />
+                    </div>
+                </div></label>
+                <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+                    <div class="avatar">
+                        <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 mx-auto">
+                            <img src={user?.photoURL} alt="" />
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <p className='text-center text-primary font-semibold'>{user?.displayName}</p>
+                    <p className='text-center  text-xs'>{user?.email}</p>
+
+                    <button
+                        onClick={() => signOut(auth)}
+                        class="btn gap-2 mt-5">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-6 w-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        Logout
+                    </button>
+                </ul>
+            </div>
+            :
+
+            <li><Link to='/login'>Login</Link></li>
+        }
     </>
+
+
     return (
         <nav class="navbar bg-base-100">
             <div class="navbar-start">
