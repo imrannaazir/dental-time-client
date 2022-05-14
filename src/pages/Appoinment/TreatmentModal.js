@@ -3,16 +3,24 @@ import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import auth from '../../firebase.init';
 
-const TreatmentModal = ({ treatment, date }) => {
+const TreatmentModal = ({ setTreatment, treatment, date }) => {
     const [user] = useAuthState(auth);
+    console.log(treatment);
     const handleBooking = e => {
         e.preventDefault()
-        console.log('clicked');
         const newBooking = {
+            patientEmail: user.email,
+            patientName: user.displayName,
+            patientPhone: e.target.phone.value,
+            treatmentId: treatment._id,
+            treatmentName: treatment.name,
             date: format(date, 'PP'),
             slot: e.target.slot.value
         }
         console.log(newBooking);
+
+        setTreatment(null)
+
     }
 
 
@@ -65,9 +73,10 @@ const TreatmentModal = ({ treatment, date }) => {
                             type="text"
                             placeholder='Phone'
                             class="input input-bordered w-full "
+                            required
                         />
-                        <label
-                            for="my-treatment-modal" class="btn font-normal">SUBMIT</label>
+                        <button
+                            for="my-treatment-modal" class="btn font-normal">SUBMIT</button>
                     </form>
                 </div>
             </div>

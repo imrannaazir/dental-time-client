@@ -12,7 +12,7 @@ const AvailableAppointments = ({ date }) => {
             const { data } = await axios.get('http://localhost:5000/services')
             setServices(data);
         })()
-    }, [])
+    }, []);
     return (
         <div className='mb-40'>
             <p className='text-center text-2xl text-secondary mb-24'>Available Appointments on {format(date, 'PP')}</p>
@@ -21,7 +21,7 @@ const AvailableAppointments = ({ date }) => {
                     services.map(service => <Treatment setTreatment={setTreatment} key={service._id} service={service} />)
                 }
             </div>
-            <TreatmentModal date={date} treatment={treatment} />
+            {treatment && <TreatmentModal date={date} setTreatment={setTreatment} treatment={treatment} />}
         </div>
     );
 };
