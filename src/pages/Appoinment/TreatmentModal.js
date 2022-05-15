@@ -1,12 +1,15 @@
+import axios from 'axios';
+import { success } from 'daisyui/src/colors';
 import { format } from 'date-fns';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 
 const TreatmentModal = ({ setTreatment, treatment, date }) => {
     const [user] = useAuthState(auth);
     console.log(treatment);
-    const handleBooking = e => {
+    const handleBooking = async e => {
         e.preventDefault()
         const newBooking = {
             patientEmail: user.email,
@@ -17,8 +20,14 @@ const TreatmentModal = ({ setTreatment, treatment, date }) => {
             date: format(date, 'PP'),
             slot: e.target.slot.value
         }
-        console.log(newBooking);
-
+        const { data } = await axios.post('http://localhost:5000/booking', newBooking)
+        console.log(data);
+        if (data.success) {
+            toast.success(`You booked ${treatment.name} on ${format(date, 'PP')}`)
+        }
+        else {
+            toast.error(`Failed! You've already booked ${data.newBooking.treatmentName} on ${data.newBooking.date}`)
+        }
         setTreatment(null)
 
     }

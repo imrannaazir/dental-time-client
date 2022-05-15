@@ -2,7 +2,7 @@ import React from 'react';
 import auth from '../../firebase.init';
 import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import Loading from '../Shared/Loading';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 
 const Login = () => {
@@ -31,6 +31,7 @@ const Login = () => {
 
 
                 <form onSubmit={handleSubmit(onSubmit)}>
+                    <p className='text-xl text-center my-4'>Login</p>
 
                     {/* input handle for email */}
                     <div class="form-control w-full max-w-xs">
@@ -82,7 +83,7 @@ const Login = () => {
                         <label class="label">
                             {errors.password?.type === 'required' && <span class="label-text-alt text-error">{errors.password.message}</span>}
                             {errors.password?.type === 'minLength' && <span class="label-text-alt text-error">{errors.password.message}</span>}
-
+                            <span class="label-text-alt text-right">Forgot password?</span>
                         </label>
                     </div>
 
@@ -91,6 +92,7 @@ const Login = () => {
 
 
                     <input className='btn btn-block' value='LOGIN' type="submit" />
+                    <p className='text-center text-sm my-3'>New to DentalTime?<Link className='text-primary' to='/signup'>Create new account</Link></p>
                 </form>
 
 
