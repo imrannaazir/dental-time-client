@@ -2,6 +2,7 @@ import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, NavLink, useLocation } from 'react-router-dom';
+import userimg from '../../assets/images/user.jpg'
 import auth from '../../firebase.init';
 
 const Navbar = ({ children }) => {
@@ -35,13 +36,13 @@ const Navbar = ({ children }) => {
             <div class="dropdown dropdown-end dropdown-hover">
                 <label tabindex="0"><div class="avatar online mt-2">
                     <div class="w-8 rounded-full">
-                        <img src={user?.photoURL} alt="" />
+                        <img src={user?.photoURL || userimg} alt="" />
                     </div>
                 </div></label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                     <div class="avatar">
                         <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 mx-auto">
-                            <img src={user?.photoURL} alt="" />
+                            <img src={user?.photoURL || userimg} alt="" />
                         </div>
                     </div>
                     <div class="divider"></div>
