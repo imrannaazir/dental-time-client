@@ -1,14 +1,25 @@
 import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import userimg from '../../assets/images/user.jpg'
+import { NavLink, useLocation } from 'react-router-dom';
+import userImg from '../../assets/images/user.jpg'
 import auth from '../../firebase.init';
+import Loading from './Loading';
 
 const Navbar = ({ children }) => {
     const location = useLocation();
     const [path, setPath] = useState(false);
     const [theme, setTheme] = useState(false);
+    useEffect(() => {
+        const a = localStorage.getItem('theme');
+        if (a) {
+            setTheme(true)
+        }
+        else {
+            setTheme(false)
+        }
+    }, [])
+
     useEffect(() => {
 
         if (location.pathname === '/dashboard') {
@@ -25,6 +36,7 @@ const Navbar = ({ children }) => {
         }
     }, [location.pathname])
     const [user, loading] = useAuthState(auth);
+    if (loading) return <Loading />
     const navElement = <>
         <li><NavLink className='rounded-lg' to='/'>Home</NavLink></li>
         <li><NavLink className='rounded-lg' to='/appointment'>Appointment</NavLink></li>
@@ -36,13 +48,13 @@ const Navbar = ({ children }) => {
             <div class="dropdown dropdown-end dropdown-hover">
                 <label tabindex="0"><div class="avatar online mt-2">
                     <div class="w-8 rounded-full">
-                        <img src={user?.photoURL || userimg} alt="" />
+                        <img src={user?.photoURL || userImg} alt="" />
                     </div>
                 </div></label>
                 <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
                     <div class="avatar">
                         <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 mx-auto">
-                            <img src={user?.photoURL || userimg} alt="" />
+                            <img src={user?.photoURL || userImg} alt="" />
                         </div>
                     </div>
                     <div class="divider"></div>
@@ -52,7 +64,10 @@ const Navbar = ({ children }) => {
 
                         {/* <!-- this hidden checkbox controls the state --> */}
                         <input
-                            onClick={() => setTheme(!theme)}
+                            onChange={() => {
+                                localStorage.setItem('theme', !theme)
+                                setTheme(!theme)
+                            }}
                             type="checkbox" />
 
                         {/* <!-- sun icon --> */}
@@ -65,7 +80,10 @@ const Navbar = ({ children }) => {
                     <a className='btn btn-block btn-outline my-2' href='/dashboard'>Dashboard</a>
 
                     <button
-                        onClick={() => signOut(auth)}
+                        onClick={() => {
+                            signOut(auth)
+                            localStorage.removeItem('accessToken')
+                        }}
                         class="btn gap-2 ">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +109,7 @@ const Navbar = ({ children }) => {
 
 
     return (
-        <div data-theme={theme ? 'dark' : 'light'} class="drawer drawer-end">
+        <div data-theme={theme ? 'light' : 'dark'} class="drawer drawer-end">
             <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
             <div class="drawer-content flex flex-col">
                 {/* navbar */}

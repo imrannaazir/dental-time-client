@@ -1,27 +1,49 @@
-import React from 'react';
 import auth from '../../firebase.init';
-import { useAuthState, useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { useAuthState, useSignInWithEmailAndPassword, useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import Loading from '../Shared/Loading';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
+import useToken from '../../hooks/useToken';
 
 const Login = () => {
+    const [
+        signInWithEmailAndPassword,
+        eUser,
+        eLoading,
+        eError,
+    ] = useSignInWithEmailAndPassword(auth);
+
     const { register, formState: { errors }, handleSubmit } = useForm();
     const onSubmit = data => {
-        console.log(data)
+        // console.log(data)
+        signInWithEmailAndPassword(data?.email, data?.password)
+
     };
 
     const navigate = useNavigate()
     const location = useLocation()
     let from = location.state?.from?.pathname || "/"
     const [user, loading, error] = useAuthState(auth)
+
+
+
     const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
 
-    if (loading || gLoading) {
+    const [token] = useToken(user || gUser || eUser)
+    console.log('token koi', token);
+    // console.log('guser', gUser, 'user', user);
+    // console.log('this is token', token);
+
+
+    if (loading || gLoading || eLoading) {
         return <Loading />
     }
-    if (user || gUser) {
-        navigate(from);
+    if (error || gError || eError) {
+        console.log(error?.message || gError?.message || eError?.message);
+    }
+
+    if (token) {
+        navigate(from)
     }
 
     return (

@@ -3,6 +3,8 @@ import { useAuthState, useCreateUserWithEmailAndPassword, useSignInWithGoogle } 
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import useToken from '../../hooks/useToken';
+import Loading from '../Shared/Loading';
 const SignUp = () => {
     const navigate = useNavigate();
     const location = useLocation()
@@ -15,24 +17,28 @@ const SignUp = () => {
         eLoading,
         eError,
     ] = useCreateUserWithEmailAndPassword(auth);
+    const [token] = useToken(gUser || eUser || user);
+
 
     const { register, watch, formState: { errors }, handleSubmit } = useForm({ mode: onchange });
 
 
     const onSubmit = data => {
-        console.log(data)
         createUserWithEmailAndPassword(data.email, data.password)
 
     };
 
     const password = watch('password')
 
-    if (eError) {
-        console.log(eError.message);
+    if (loading || gLoading || eLoading) return <Loading />
+
+    if (error || gError || eError) {
+        console.log(error?.message || gError?.message || eError?.message);
     }
-    if (user || gUser || eUser) {
+    if (token) {
         navigate(form)
     }
+
 
     return (
         <div className='flex justify-center items-center h-screen'>

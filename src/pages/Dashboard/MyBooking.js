@@ -17,7 +17,7 @@ const MyBooking = () => {
 
     return (
         <div className='mt-12  w-[90%] mx-auto'>
-            <p className='text-2xl mb-8'>My Appointments</p>
+            <p className='text-2xl mb-8'>My Appointments-{MyBooking.length}</p>
 
             {/* table */}
             <div class="overflow-x-auto">

@@ -1,12 +1,11 @@
 import axios from 'axios';
-import { success } from 'daisyui/src/colors';
 import { format } from 'date-fns';
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import toast from 'react-hot-toast';
 import auth from '../../firebase.init';
 
-const TreatmentModal = ({ setTreatment, treatment, date }) => {
+const TreatmentModal = ({ setTreatment, treatment, date, refetch }) => {
     const [user] = useAuthState(auth);
     console.log(treatment);
     const handleBooking = async e => {
@@ -29,6 +28,7 @@ const TreatmentModal = ({ setTreatment, treatment, date }) => {
             toast.error(`Failed! You've already booked ${data.newBooking.treatmentName} on ${data.newBooking.date}`)
         }
         setTreatment(null)
+        refetch()
 
     }
 
