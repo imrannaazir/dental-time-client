@@ -1,18 +1,36 @@
 import axios from 'axios';
+import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading';
 
 const MyBooking = () => {
+    const navigate = useNavigate()
     const [user, loading] = useAuthState(auth);
     const [MyBooking, setMyBooking] = useState([]);
     useEffect(() => {
-        (async function () {
-            const { data } = await axios.get(`http://localhost:5000/booking?email=${user?.email}`)
-            setMyBooking(data)
-        })()
-    }, [user?.email])
+        axios.get(`http://localhost:5000/booking?email=${user?.email}`, {
+            headers: {
+                authorization: `Bearer ${localStorage.getItem("accessToken")}`
+            }
+        })
+            .then(function (response) {
+                // handle success
+                setMyBooking(response.data);
+            })
+            .catch(function (error) {
+                // handle error
+                if (error.response.status === 401 || 403) {
+                    signOut(auth)
+                    localStorage.removeItem('accessToken')
+                    navigate('/')
+                    toast.error(error.response.data.message + '! please login')
+                }
+            })
+    }, [navigate, user?.email])
     if (loading) return <Loading />
 
     return (

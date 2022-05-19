@@ -6,6 +6,12 @@ import { useForm } from "react-hook-form";
 import useToken from '../../hooks/useToken';
 
 const Login = () => {
+    const navigate = useNavigate()
+    const location = useLocation()
+    let from = location.state?.from?.pathname || "/"
+    const [user, loading, error] = useAuthState(auth)
+
+    /* email hook  */
     const [
         signInWithEmailAndPassword,
         eUser,
@@ -13,26 +19,18 @@ const Login = () => {
         eError,
     ] = useSignInWithEmailAndPassword(auth);
 
+    /* google hook */
+    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
+
+    /* token hook */
+    const [token] = useToken(gUser || eUser || user);
+
+    /* hook form submit function for email auth */
     const { register, formState: { errors }, handleSubmit } = useForm();
     const onSubmit = data => {
         // console.log(data)
         signInWithEmailAndPassword(data?.email, data?.password)
-
     };
-
-    const navigate = useNavigate()
-    const location = useLocation()
-    let from = location.state?.from?.pathname || "/"
-    const [user, loading, error] = useAuthState(auth)
-
-
-
-    const [signInWithGoogle, gUser, gLoading, gError] = useSignInWithGoogle(auth);
-
-    const [token] = useToken(user || gUser || eUser)
-    console.log('token koi', token);
-    // console.log('guser', gUser, 'user', user);
-    // console.log('this is token', token);
 
 
     if (loading || gLoading || eLoading) {
@@ -45,6 +43,7 @@ const Login = () => {
     if (token) {
         navigate(from)
     }
+
 
     return (
         <div className='flex justify-center items-center h-screen'>
