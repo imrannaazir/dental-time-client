@@ -40,9 +40,7 @@ const AllUser = () => {
                         {
                             users?.map((user, i) => { return <User key={user._id} i={i} user={user} refetch={refetch} /> })
                         }
-                        {
-                            console.log(refetch)
-                        }
+
 
                     </tbody>
                 </table>

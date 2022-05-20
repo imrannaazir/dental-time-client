@@ -1,19 +1,29 @@
-import axios from 'axios';
 import React from 'react';
 import toast from 'react-hot-toast';
 
 const User = ({ i, refetch, user: { email, role } }) => {
-    const handleRole = () => {
-        (async function () {
-            const { data } = await axios.put(`http://localhost:5000/users/admin/${email}`, {
-                headers:
-                {
-                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
+
+    const handleRole = email => {
+        console.log(email);
+        fetch(`http://localhost:5000/users/admin/${email}`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${localStorage.getItem('accessToken')}`
+            }
+        })
+            .then(res => {
+                if (res.status === 403) {
+                    toast.error('Failed to Make an admin');
                 }
+                return res.json()
             })
-            refetch();
-            toast.success("New admin created successfully.")
-        })()
+            .then(data => {
+                if (data.modifiedCount > 0) {
+                    refetch();
+                    toast.success(`Successfully made an admin`);
+                }
+
+            })
     }
     return (
         <tr>
@@ -25,7 +35,7 @@ const User = ({ i, refetch, user: { email, role } }) => {
                         <button class="btn btn-xs">Admin</button>
                         :
                         <button
-                            onClick={handleRole}
+                            onClick={() => handleRole(email)}
                             class="btn btn-xs">Make Admin</button>}
 
             </td>
