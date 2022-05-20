@@ -4,6 +4,7 @@ import Loading from '../Shared/Loading';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import useToken from '../../hooks/useToken';
+import { useEffect } from 'react';
 
 const Login = () => {
     const navigate = useNavigate()
@@ -31,7 +32,12 @@ const Login = () => {
         // console.log(data)
         signInWithEmailAndPassword(data?.email, data?.password)
     };
+    useEffect(() => {
+        if (token) {
+            navigate(from, { replace: true })
+        }
 
+    }, [from, navigate, token, user])
 
     if (loading || gLoading || eLoading) {
         return <Loading />
@@ -40,9 +46,6 @@ const Login = () => {
         console.log(error?.message || gError?.message || eError?.message);
     }
 
-    if (token) {
-        navigate(from)
-    }
 
 
     return (

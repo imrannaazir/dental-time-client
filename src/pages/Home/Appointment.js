@@ -4,7 +4,7 @@ import appointment from '../../assets/images/appointment.png';
 import Button from '../Shared/Button';
 const Appointment = () => {
     return (
-        <section style={{ backgroundImage: `url(${appointment})` }} class="bg-cover flex items-center mt-[170px] mb-20 px-7  py-16 lg:py-0 lg:px-32">
+        <section style={{ backgroundImage: `url(${appointment})` }} class="bg-cover flex items-center mt-[170px] mb-20 px-7  py-16 lg:py-0 lg:px-32 bg-fixed">
             <img className='h-[636px] -mt-[200px] hidden lg:block' src={doctor} alt="" />
             <div className=' flex flex-col gap-5'>
                 <p className='text-primary font-bold text-xl'>Appointment</p>

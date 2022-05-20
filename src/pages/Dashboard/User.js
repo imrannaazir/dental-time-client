@@ -5,8 +5,12 @@ import toast from 'react-hot-toast';
 const User = ({ i, refetch, user: { email, role } }) => {
     const handleRole = () => {
         (async function () {
-            const { data } = await axios.put(`http://localhost:5000/users/admin/${email}`)
-            console.log(data);
+            const { data } = await axios.put(`http://localhost:5000/users/admin/${email}`, {
+                headers:
+                {
+                    authorization: `Bearer ${localStorage.getItem('accessToken')}`
+                }
+            })
             refetch();
             toast.success("New admin created successfully.")
         })()

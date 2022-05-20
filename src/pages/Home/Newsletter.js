@@ -3,7 +3,7 @@ import bg from '../../assets/images/appointment.png'
 import Button from '../Shared/Button';
 const Newsletter = () => {
     return (
-        <div style={{ backgroundImage: `url(${bg})` }} class="flex flex-col items-center bg-cover py-16 gap-10">
+        <div style={{ backgroundImage: `url(${bg})` }} class="flex flex-col items-center bg-cover py-16 gap-10 bg-fixed">
             <div className='text-center'>
                 <p className='text-primary font-bold'>Contact Us</p>
                 <p className='text-4xl text-white'>Stay connected with us</p>
