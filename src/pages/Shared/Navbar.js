@@ -22,15 +22,10 @@ const Navbar = ({ children }) => {
 
     useEffect(() => {
 
-        if (location.pathname === '/dashboard') {
+        if (location.pathname.includes('dashboard')) {
             setPath(true)
         }
-        else if (location.pathname === '/dashboard/history') {
-            setPath(true)
-        }
-        else if (location.pathname === '/dashboard/reviews') {
-            setPath(true)
-        }
+
         else {
             setPath(false)
         }

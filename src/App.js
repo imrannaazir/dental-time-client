@@ -11,6 +11,7 @@ import Dashboard from './pages/Dashboard/Dashboard';
 import MyBooking from './pages/Dashboard/MyBooking';
 import MyReviews from './pages/Dashboard/MyReviews';
 import MyHistory from './pages/Dashboard/MyHistory';
+import AllUser from './pages/Dashboard/AllUser';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route index element={<MyBooking />} />
             <Route path='reviews' element={<MyReviews />} />
             <Route path='history' element={<MyHistory />} />
+            <Route path='users' element={<AllUser />} />
 
 
           </Route>
