@@ -1,7 +1,18 @@
-import React from 'react';
-import { Link, NavLink, Outlet } from 'react-router-dom';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { Link, Outlet } from 'react-router-dom';
+import auth from '../../firebase.init';
 
 const Dashboard = () => {
+    const [user] = useAuthState(auth)
+    const [isAdmin, setIsAdmin] = useState(false)
+    useEffect(() => {
+        (async function () {
+            const { data } = await axios.get(`http://localhost:5000/admin/${user?.email}`)
+            setIsAdmin(data.isAdmin);
+        })()
+    }, [user?.email])
     return (
         <div class="drawer drawer-mobile">
             <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
@@ -23,8 +34,12 @@ const Dashboard = () => {
                     <li><Link to='/dashboard'>My Appointments</Link></li>
                     <li><Link to='/dashboard/reviews'>My Reviews</Link></li>
                     <li><Link to='/dashboard/history'>History</Link></li>
-                    <li><Link to='/dashboard/users'>All Users</Link></li>
-
+                    {isAdmin &&
+                        <>
+                            <li><Link to='/dashboard/users'>All Users</Link></li>
+                            <li><Link to='/dashboard/add-doctor'>Add Doctor</Link></li>
+                        </>
+                    }
                 </ul>
 
             </div>

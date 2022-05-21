@@ -12,6 +12,8 @@ import MyBooking from './pages/Dashboard/MyBooking';
 import MyReviews from './pages/Dashboard/MyReviews';
 import MyHistory from './pages/Dashboard/MyHistory';
 import AllUser from './pages/Dashboard/AllUser';
+import AdminAuth from './pages/Auth/AdminAuth'
+import AddDoctor from './pages/Dashboard/AddDoctor';
 
 function App() {
   return (
@@ -25,7 +27,8 @@ function App() {
             <Route index element={<MyBooking />} />
             <Route path='reviews' element={<MyReviews />} />
             <Route path='history' element={<MyHistory />} />
-            <Route path='users' element={<AllUser />} />
+            <Route path='users' element={<AdminAuth><AllUser /></AdminAuth>} />
+            <Route path='add-doctor' element={<AdminAuth><AddDoctor /></AdminAuth>} />
 
 
           </Route>
