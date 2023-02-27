@@ -6,7 +6,7 @@ import User from './User';
 
 const AllUser = () => {
     const { isLoading, error, data, refetch } = useQuery('repoData', () =>
-        axios.get('http://localhost:5000/users', {
+        axios.get('https://dental-time.onrender.com/users', {
             headers:
             {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`

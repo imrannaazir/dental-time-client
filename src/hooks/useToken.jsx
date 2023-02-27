@@ -9,7 +9,7 @@ const useToken = (user) => {
     if (email) {
       (async () => {
         const { data } = await axios.put(
-          `http://localhost:5000/users/${email}`,
+          `https://dental-time.onrender.com/users/${email}`,
           currentUser
         );
         const accessToken = data.token;

@@ -12,7 +12,7 @@ const MyBooking = () => {
     const [user, loading] = useAuthState(auth);
     const [MyBooking, setMyBooking] = useState([]);
     useEffect(() => {
-        axios.get(`http://localhost:5000/booking?email=${user?.email}`, {
+        axios.get(`https://dental-time.onrender.com/booking?email=${user?.email}`, {
             headers: {
                 authorization: `Bearer ${localStorage.getItem("accessToken")}`
             }

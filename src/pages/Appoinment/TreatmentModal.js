@@ -19,7 +19,7 @@ const TreatmentModal = ({ setTreatment, treatment, date, refetch }) => {
             date: format(date, 'PP'),
             slot: e.target.slot.value
         }
-        const { data } = await axios.post('http://localhost:5000/booking', newBooking)
+        const { data } = await axios.post('https://dental-time.onrender.com/booking', newBooking)
         console.log(data);
         if (data.success) {
             toast.success(`You booked ${treatment.name} on ${format(date, 'PP')}`)

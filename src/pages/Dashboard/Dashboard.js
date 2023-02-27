@@ -9,7 +9,7 @@ const Dashboard = () => {
     const [isAdmin, setIsAdmin] = useState(false)
     useEffect(() => {
         (async function () {
-            const { data } = await axios.get(`http://localhost:5000/admin/${user?.email}`)
+            const { data } = await axios.get(`https://dental-time.onrender.com/admin/${user?.email}`)
             setIsAdmin(data.isAdmin);
         })()
     }, [user?.email])

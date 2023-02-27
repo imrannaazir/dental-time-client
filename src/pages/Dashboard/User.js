@@ -5,7 +5,7 @@ const User = ({ i, refetch, user: { email, role } }) => {
 
     const handleRole = email => {
         console.log(email);
-        fetch(`http://localhost:5000/users/admin/${email}`, {
+        fetch(`https://dental-time.onrender.com/users/admin/${email}`, {
             method: 'PUT',
             headers: {
                 authorization: `Bearer ${localStorage.getItem('accessToken')}`

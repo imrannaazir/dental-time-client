@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import Loading from '../Shared/Loading';
 
 const AddDoctor = () => {
-    const { data: services, isLoading } = useQuery('services', () => axios.get('http://localhost:5000/services'));
+    const { data: services, isLoading } = useQuery('services', () => axios.get('https://dental-time.onrender.com/services'));
     const { register, formState: { errors }, handleSubmit } = useForm();
 
     const onSubmit = data => {
